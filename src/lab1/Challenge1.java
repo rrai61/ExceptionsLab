@@ -16,26 +16,24 @@ import javax.swing.JOptionPane;
  * @version 1.00
  */
 public class Challenge1 {
-    private static final int FIRST_NAME_IDX = 0;
-    private static final int LAST_NAME_IDX = 1;
-    private final int MIN_NAME_LENGTH = 5;
-    private final int MAX_NAME_LENGTH = 41;
-    private String[] nameString = {"empty", "empty"};
+    private static String[] nameString;
+    private static final int LAST_NAME_IDX = (nameString.length-1);
     
     public static void main(String[] args) throws IllegalArgumentException{
         Challenge1 app = new Challenge1();
         String fullName = "unknown";
         String lastName = "unknown";
+        fullName = JOptionPane.showInputDialog("Enter full name (use Format: first last):");
         
         try{
-        fullName = JOptionPane.showInputDialog("Enter full name (use Format: first last):");
         lastName = app.extractLastName(fullName);
-        }
-        catch(IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
         String msg = "Your last name is: " + lastName;
         JOptionPane.showMessageDialog(null, msg);
+        }
+        catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
     }
     
     // write the code to extract the lastName from the fullName
@@ -45,10 +43,9 @@ public class Challenge1 {
     
     // full name cannot be null or an empty string. must be greater than the minimum length for full name
     public String extractLastName(String fullName) throws IllegalArgumentException{
-        if(fullName == null || fullName.isEmpty() || fullName.length() < MIN_NAME_LENGTH  || 
-                fullName.length() > MAX_NAME_LENGTH ) {
-            throw new IllegalArgumentException("Sorry name is mandatory and must be between " 
-                    + MIN_NAME_LENGTH +" and " + MAX_NAME_LENGTH +" characters in length");
+        if(fullName == null || fullName.isEmpty() || fullName.split(" ").length <2 ) {
+            throw new IllegalArgumentException("Sorry name is mandatory and must contain both"
+                    + "first name and last name.");
         }
         // Your code goes here. Assign your value to lastName
         nameString = fullName.split(" ");
